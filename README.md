@@ -67,6 +67,7 @@ If you’re ever:
 
 Gaussian distribution is the backbone.
 
+
 ### Markov chain random walk
 
 A random walk is a special type of Markov process where:
@@ -115,7 +116,7 @@ Visualization
 1. Download this repo as `.zip`
 2. In Arduino IDE: **Sketch > Include Library > Add .ZIP Library**
 
-### From GitHub (advanced):
+### From GitHub:
 Clone into your `libraries` folder:
 ```bash
 git clone https://github.com/yourusername/esp32-random-utils.git
