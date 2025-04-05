@@ -24,11 +24,15 @@ Includes:
 */
 
 // Uniform 32-bit int in [min, max)
-inline uint32_t rnd(uint32_t min, uint32_t max) {
+// --- General-purpose signed rnd() in [min, max)
+inline int32_t rnd(int32_t min, int32_t max) {
   if (min >= max) return min;
-  uint32_t range = max - min, r;
-  do { r = esp_random(); } while (r >= UINT32_MAX - (UINT32_MAX % range));
-  return min + (r % range);
+  uint32_t range = static_cast<uint32_t>(max - min);
+  uint32_t r;
+  do {
+    r = esp_random();
+  } while (r >= UINT32_MAX - (UINT32_MAX % range));
+  return min + static_cast<int32_t>(r % range);
 }
 
 // Full 64-bit random
