@@ -2,7 +2,6 @@
 ![Hardware RNG](https://img.shields.io/badge/Random-Hardware%20RNG-green?logo=entropy)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-=========================
 ESP32 Random Utilities
 =========================
 
@@ -19,6 +18,94 @@ A lightweight and powerful C++ library for generating random numbers on the ESP3
 - ✅ **Weighted random choice** (with normalized probabilities)
 - ✅ **Exclusion-aware random range selection**
 - ✅ **Markov chain random walks** for behavior/state modeling
+
+### Gaussian/Normal distribution using Box-Muller transform
+Returns a float sampled from N(mean, stddev^2)
+
+It’s the famous bell curve: data tends to cluster around a central mean.
+- 68% of values lie within 1 standard deviation from the mean.
+- Common in natural systems: noise, temperature, human behavior, etc.
+
+1. More natural randomness
+If you’re building something that needs realistic behavior — like:
+- Weather simulation
+- Random blinking or dimming of lights
+- Game AI decisions or enemy spawning
+- Sensor simulation (simulate jitter or natural variability)
+
+A uniform distribution feels artificial. Gaussian randomness feels alive.
+
+2. Center-weighted events
+Uniform random: random(0, 100) gives all values equally.
+Gaussian: most values cluster near the mean, like 50, and far extremes (0, 100) are rare.
+
+Use case:
+- Particle trails cluster near origin
+- LED bursts that fade naturally from center
+- Random delays that feel more organic
+
+3. Noise generation
+- For adding smooth visual noise (Perlin/simplex over Gaussian samples)
+- For sound/signal simulation
+- To create “jitter” around a value that isn’t jumpy
+
+Real-World Example: LED flickering effect
+Instead of: int brightness = random(80, 120); // uniform
+You could do: int brightness = gaussian(100, 10); // mean=100, std dev=10
+
+Which results in:
+- Most flickers close to 100
+- Rare flashes above 120 or below 80
+- 👀 Visually: looks more like candlelight
+
+4. Machine learning or statistical modeling
+
+If you’re ever:
+- Doing data generation for training (mock inputs)
+- Analyzing sensor data variation
+- Implementing probabilistic decision trees
+
+Gaussian distribution is the backbone.
+
+### Markov chain random walk
+
+A random walk is a special type of Markov process where:
+- You randomly move from one state to another based on fixed probabilities.
+- Imagine a drunk person walking on a line — each step is randomly left or right.
+
+Use cases:
+- Procedural scene navigation
+- Smooth visual transitions
+- Behavior modeling
+- Game character states
+
+You define a set of possible states and how likely you are to transition from one to another.
+State A --> State A (40%)
+        --> State B (30%)
+        --> State C (30%)
+
+State B --> A (20%)
+        --> B (40%)
+        --> C (40%)
+
+Each time you update, you randomly choose the next state 
+based on the current state’s transition probabilities.
+
+Applications for Your Project
+
+LED Panel / Display
+- Smooth animation transitions between font styles, effects, or color palettes
+- Simulate cellular automata or flocking behavior
+- Procedurally evolve visuals: fade, noise, scroll, ripple in a natural pattern
+
+Games or AI
+- Define enemy behavior patterns with a Markov model
+- Text generation (like GPT’s tiny cousin)
+- Weather simulation: sunny → cloudy → rainy
+
+Visualization
+- Use states to create cyclical dashboards 
+(e.g., scrolling weather, prices, messages) that don’t repeat predictably
 
 ---
 
@@ -122,47 +209,6 @@ MIT License. See LICENSE file for details.
 ---
 
 ## Author
-**Your Name**  
+**Andrei Martchouk**  
 GitHub: [@martchouk](https://github.com/martchouk)
 
----
-
-## library.properties
-```ini
-name=ESP32 Random Utilities
-version=1.0.0
-author=Andrei Martchouk
-maintainer=github@martchouk.com
-sentence=Hardware-based random number tools for ESP32
-paragraph=Includes uniform, Gaussian, weighted, and Markov chain random utilities using esp_random(). Designed for simulations, games, visuals, and procedural logic on ESP32.
-category=Signal Input/Output
-url=https://github.com/martchouk/esp32-random-utils
-architectures=esp32
-includes=rnd.hpp
-```
-
----
-
-## LICENSE (MIT)
-```text
-MIT License
-
-Copyright (c) 2024 Your Name
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
