@@ -119,7 +119,7 @@ Visualization
 ### From GitHub:
 Clone into your `libraries` folder:
 ```bash
-git clone https://github.com/yourusername/esp32-random-utils.git
+git clone https://github.com/martchouk/esp32-random-utils.git
 ```
 
 ---
