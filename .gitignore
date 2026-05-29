@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Build / IDE
+build/
+.vscode/
+.idea/
